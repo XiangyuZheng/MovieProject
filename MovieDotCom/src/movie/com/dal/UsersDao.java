@@ -14,7 +14,7 @@ import movie.com.model.Users;
 
 public class UsersDao {
 
-protected ConnectionManager connectionManager;
+	protected ConnectionManager connectionManager;
 	
 	// Single pattern: instantiation is limited to one object.
 	//1 connection per dao, singleton pattern-hx for reuse
@@ -144,7 +144,7 @@ protected ConnectionManager connectionManager;
 	 * Get the Users record by fetching it from your MySQL instance.
 	 * This runs a SELECT statement and returns a single Users instance.
 	 */
-	public Users getUserFromUserId(int userId) throws SQLException {
+	public Users getUserByUserId(int userId) throws SQLException {
 		String selectUser = 
 				"SELECT UserId,UserName,Password,Email,FirstName,LastName,DoB,Profile,Gender "+
 				" FROM Users" +
@@ -197,7 +197,7 @@ protected ConnectionManager connectionManager;
 	 * Get the Users record by fetching it from your MySQL instance.
 	 * This runs a SELECT statement and returns a single Users instance.
 	 */
-	public Users getUserFromUserName(String userName) throws SQLException {
+	public Users getUserByUserName(String userName) throws SQLException {
 		String selectUser = 
 				"SELECT UserId,UserName,Password,Email,FirstName,LastName,DoB,Profile,Gender "+
 				" FROM Users" +
