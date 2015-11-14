@@ -4,12 +4,8 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
-import movie.com.dal.GenresDao;
-import movie.com.dal.MoviesDao;
-import movie.com.dal.UsersDao;
-import movie.com.model.Genres;
-import movie.com.model.Movies;
-import movie.com.model.Users;
+import movie.com.dal.*;
+import movie.com.model.*;
 
 public class Inserter {
 	public static void main(String[] args) throws SQLException {
@@ -18,6 +14,9 @@ public class Inserter {
 		UsersDao usersDao = UsersDao.getInstance();
 		MoviesDao moviesDao = MoviesDao.getInstance();
 	//	GenresDao genresDao = GenresDao.getInstance();
+		DirectorsDao directorsDao = DirectorsDao.getInstance();
+		DirectedMoviesDao directedMoviesDao = DirectedMoviesDao.getInstance();
+		FavoriteDirectorsDao favoriteDirectorsDao = FavoriteDirectorsDao.getInstance();
 		
 		
 		// INSERT objects from our model.
@@ -39,14 +38,29 @@ public class Inserter {
 //		Genres genre1 = new Genres(Genres.GenreType.Action);
 //		genre1 = genresDao.create(genre1);
 		
+		Directors director1 = new Directors("FirstName1", "LastName1", date, "profile", "M");
+		director1 = directorsDao.create(director1);
+		Directors director2 = new Directors("FirstName2", "LastName2", date, "profile", "M");
+		director2 = directorsDao.create(director2);
+		DirectedMovies directedMovie1 = new DirectedMovies(director1, movie1);
+		directedMovie1 = directedMoviesDao.create(directedMovie1);
+		DirectedMovies directedMovie2 = new DirectedMovies(director1, movie2);
+		directedMovie2 = directedMoviesDao.create(directedMovie2);
+		FavoriteDirectors favoriteDirector1 = new FavoriteDirectors(user1, director1);
+		favoriteDirector1 = favoriteDirectorsDao.create(favoriteDirector1);
+		FavoriteDirectors favoriteDirector2 = new FavoriteDirectors(user1, director2);
+		favoriteDirector2 = favoriteDirectorsDao.create(favoriteDirector2);
+		FavoriteDirectors favoriteDirector3 = new FavoriteDirectors(user2, director1);
+		favoriteDirector3 = favoriteDirectorsDao.create(favoriteDirector3);
+		
 		
 		
 		//read
-		Users u1 = usersDao.getUserFromUserId(1);
+		Users u1 = usersDao.getUserByUserId(1);
 		System.out.format("Reading user: u:%s f:%s l:%s e:%s \n",
 				u1.getUserName(), u1.getFirstName(), u1.getLastName(), u1.getEmail());
 		
-		Users u2 = usersDao.getUserFromUserName("hx-test2");
+		Users u2 = usersDao.getUserByUserName("hx-test2");
 		System.out.format("Reading user: u:%s f:%s l:%s e:%s \n",
 				u2.getUserName(), u2.getFirstName(), u2.getLastName(), u2.getEmail());
 		
@@ -65,11 +79,58 @@ public class Inserter {
 				m.getTitle(), m.getYear(), m.getRating());
 		}
 		
+		Directors d1 = directorsDao.getDirectorById(1);
+		System.out.println("Reading director by id: " + d1.getFirstName() + " " + d1.getLastName() +
+				" " + d1.getDoB() + " " + d1.getProfile() + " " + d1.getGender());
 		
+		Directors d2 = directorsDao.getDirectorByName("FirstName2", "LastName2");
+		System.out.println("Reading director by name: " + d2.getFirstName() + " " + d2.getLastName() +
+				" " + d2.getDoB() + " " + d2.getProfile() + " " + d2.getGender());
 		
+		d1 = directorsDao.updateProfile(d1, "newProfile");
+		System.out.println("Reading director by id: " + d1.getFirstName() + " " + d1.getLastName() +
+				" " + d1.getDoB() + " " + d1.getProfile() + " " + d1.getGender());
 		
+		DirectedMovies dm1 = directedMoviesDao.getDirectedMovieById(1);
+		System.out.println("Reading directed movies by id: " + dm1.getDirectedMovieId() + " " 
+				+ " " + dm1.getDirector().getDirectorId() + " " + dm1.getMovie().getMovieId());
 		
+		List<DirectedMovies> dmList1 = directedMoviesDao.getMoviesByDirectorId(d1.getDirectorId());
+		for (DirectedMovies dm: dmList1) {
+			System.out.println("Reading directed movies by director id: " + dm.getDirectedMovieId() + " " 
+					+ " " + dm.getDirector().getDirectorId() + " " + dm.getMovie().getMovieId());
+		}
 		
+		List<DirectedMovies> dmList2 = directedMoviesDao.getMoviesByMovieId(m1.getMovieId());
+		for (DirectedMovies dm: dmList2) {
+			System.out.println("Reading directed movies by movie id: " + dm.getDirectedMovieId() + " " 
+					+ " " + dm.getDirector().getDirectorId() + " " + dm.getMovie().getMovieId());
+		}
+		
+		FavoriteDirectors fd1 = favoriteDirectorsDao.getFavoriteDirectorById(1);
+		System.out.println("Reading favorite director by id: " + fd1.getFavoriteDirectorId() + " "
+				+ fd1.getUser().getUserName() + " " + fd1.getDirector().getDirectorId());
+		
+		List<FavoriteDirectors> fdList1 = favoriteDirectorsDao.getFavoriteDirectorsByUserId(u1.getUserId());
+		for (FavoriteDirectors fd: fdList1) {
+			System.out.println("Reading favorite director by user id: " + fd.getFavoriteDirectorId() + " "
+					+ fd.getUser().getUserName() + " " + fd.getDirector().getDirectorId());
+		}
+		
+		List<FavoriteDirectors> fdList2 = favoriteDirectorsDao.getFavoriteDirectorsByDirectorId(d1.getDirectorId());
+		for (FavoriteDirectors fd: fdList2) {
+			System.out.println("Reading favorite director by director id: " + fd.getFavoriteDirectorId() + " "
+					+ fd.getUser().getUserName() + " " + fd.getDirector().getDirectorId());
+		}
+		
+		//Delete
+		directorsDao.delete(director1);
+		directorsDao.delete(director2);
+		directedMoviesDao.delete(directedMovie1);
+		directedMoviesDao.delete(directedMovie2);
+		favoriteDirectorsDao.delete(favoriteDirector1);
+		favoriteDirectorsDao.delete(favoriteDirector2);
+		favoriteDirectorsDao.delete(favoriteDirector3);
 	}
 
 }

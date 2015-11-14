@@ -29,7 +29,7 @@ public class Movies {
 
 
 	
-	public long getMovieId() {
+	public int getMovieId() {
 		return movieId;
 	}
 
