@@ -66,7 +66,7 @@ public class FavoriteGenresDao {
                 int resultFavoriteGenresId = results.getInt("FavoriteGenreId");
                 int userId = results.getInt("UserId");
                 int genreId = results.getInt("GenreId");
-                Users user = usersDao.getUserFromUserId(userId);
+                Users user = usersDao.getUserByUserId(userId);
                 Genres genre = genreDao.getGenreById(genreId);
                 FavoriteGenres favoriteGenres = new FavoriteGenres(resultFavoriteGenresId, user,
                         genre);

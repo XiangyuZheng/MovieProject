@@ -111,7 +111,7 @@ public class FavoriteActorsDao {
 			if(results.next()) {
 				int userId = results.getInt("UserId");
 				int actorId = results.getInt("ActorId");
-				Users user = usersDao.getUserById(userId);
+				Users user = usersDao.getUserByUserId(userId);
 				Actors actor = actorsDao.getActorById(actorId);
 				FavoriteActors favoriteActor = new FavoriteActors(favoriteActorId,user,actor);
 				return favoriteActor;
@@ -151,7 +151,7 @@ public class FavoriteActorsDao {
 			while(results.next()) {
 				int favoriteActorId = results.getInt("FavoriteActorId");
 				int actorId = results.getInt("ActorId");
-				Users user = usersDao.getUserById(userId);
+				Users user = usersDao.getUserByUserId(userId);
 				Actors actor = actorsDao.getActorById(actorId);
 				FavoriteActors favoriteActor = new FavoriteActors(favoriteActorId,user,actor);
 				favoriteActors.add(favoriteActor);
@@ -191,7 +191,7 @@ public class FavoriteActorsDao {
 			while(results.next()) {
 				int favoriteActorId = results.getInt("FavoriteActorId");
 				int userId = results.getInt("UserId");
-				Users user = usersDao.getUserById(userId);
+				Users user = usersDao.getUserByUserId(userId);
 				Actors actor = actorsDao.getActorById(actorId);
 				FavoriteActors favoriteActor = new FavoriteActors(favoriteActorId,user,actor);
 				favoriteActors.add(favoriteActor);
