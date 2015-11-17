@@ -109,6 +109,70 @@ public class UsersDao {
 			}
 		}
 	}
+	
+	
+	
+	/**
+	 * Update the Password of the Users instance.
+	 * This runs a UPDATE statement.
+	 */
+	public Users updatePassword(Users user, String newPassword) throws SQLException {
+		String updateUser = "UPDATE Users SET Password=? WHERE UserId=?;";
+		Connection connection = null;
+		PreparedStatement updateStmt = null;
+		try {
+			connection = connectionManager.getConnection();
+			updateStmt = connection.prepareStatement(updateUser);
+			updateStmt.setString(1, newPassword);
+			updateStmt.setInt(2, user.getUserId());
+			updateStmt.executeUpdate();
+			
+			// Update the user param before returning to the caller.
+			user.setPassword(newPassword);
+			return user;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if(connection != null) {
+				connection.close();
+			}
+			if(updateStmt != null) {
+				updateStmt.close();
+			}
+		}
+	}
+	
+	/**
+	 * Update the Profile of the Users instance.
+	 * This runs a UPDATE statement.
+	 */
+	public Users updateProfile(Users user, String newProfile) throws SQLException {
+		String updateUser = "UPDATE Users SET Profile=? WHERE UserId=?;";
+		Connection connection = null;
+		PreparedStatement updateStmt = null;
+		try {
+			connection = connectionManager.getConnection();
+			updateStmt = connection.prepareStatement(updateUser);
+			updateStmt.setString(1, newProfile);
+			updateStmt.setInt(2, user.getUserId());
+			updateStmt.executeUpdate();
+			
+			// Update the user param before returning to the caller.
+			user.setProfile(newProfile);
+			return user;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if(connection != null) {
+				connection.close();
+			}
+			if(updateStmt != null) {
+				updateStmt.close();
+			}
+		}
+	}
 
 	/**
 	 * Delete the Users instance.
