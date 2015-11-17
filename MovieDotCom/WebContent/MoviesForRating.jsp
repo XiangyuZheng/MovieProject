@@ -29,6 +29,8 @@
 <!-- Latest compiled and minified JavaScript -->
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.3.4/notify.min.js"></script>
 
 <!-- Custom CSS -->
 <link href="css/half-slider.css" rel="stylesheet">
@@ -93,80 +95,80 @@
 
 		<div class="row">
 			<div class="col-lg-12">
-				<h1>Recommended Movies for you</h1>
+				<h1>Please rate the movies you know</h1>
 			</div>
 		</div>
 
 		<!-- Page Features -->
 		<div class="row text-center">
-			<div class="row text-center">
-				<div class="col-md-9 hero-feature">
-					<c:forEach items="${movies}" var="m">
-						<div class="col-md-3 col-sm-6 hero-feature">
-							<div class="thumbnail" style="height: 500px; overflow: hidden;">
-								<img height="500" width="800"
-									src='<c:out value="${m.getImageURL()}" />' alt="starting">
-								<div class="caption">
-									<h3>
-										<c:out value="${m.getTitle()}" />
-									</h3>
-									<p>
-										<font color="blue">Year</font>:
-										<c:out value="${m.getYear()}" />
-									</p>
-									<p>
-										<font color="blue">Rating</font>:
-										<c:out value="${m.getRating()}" />
-									</p>
-									<p>
-										<font color="blue">Description</font>:
-										<c:out value="${m.getDescription()}" />
-									</p>
-								</div>
-							</div>
-						</div>
-					</c:forEach>
-				</div>
+			<c:forEach items="${movies}" var="m">
 				<div class="col-md-3 col-sm-6 hero-feature">
-					<h2 align="left">Filters</h2>
-					<div class="row placeholders">
-						<form class="form-horizontal">
-							<div class="form-group">
-								<label for="username" class="col-sm-2 control-label">Year:</label>
-								<div class="col-sm-8">
-									<input ng-model="username" type="text" class="form-control"
-										id="username" placeholder="Username">
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="password" class="col-sm-2 control-label">Genre:</label>
-								<div class="col-sm-8">
-									<input ng-model="password" type="password" class="form-control"
-										id="password" placeholder="Password">
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="col-sm-offset-2 col-sm-10">
-									<button class="btn btn-success">Update List</button>
-								</div>
-							</div>
-						</form>
+					<div class="thumbnail" style="height: 500px;">
+						<img height="500" width="800"
+							src='<c:out value="${m.getImageURL()}" />' alt="starting">
+						<div class="caption">
+							<h4>
+								<c:out value="${m.getTitle()}" />
+							</h4>
+							<label>Your Rating:</label> <select
+								onchange="changeRating(111, <c:out value='${m.getMovieId()}' />, this.value)"
+								class="form-control">
+								<option value=0>Please Choose</option>
+								<option value=1>1</option>
+								<option value=2>2</option>
+								<option value=3>3</option>
+								<option value=4>4</option>
+								<option value=5>5</option>
+								<option value=6>6</option>
+								<option value=7>7</option>
+								<option value=8>8</option>
+								<option value=9>9</option>
+								<option value=10>10</option>
+							</select>
+						</div>
 					</div>
 				</div>
-			</div>
-			<!-- /.row -->
-			<hr>
-			<!-- Footer -->
-			<footer>
-			<div class="row">
-				<div class="col-lg-12">
-					<p>Copyright &copy; MovieDotCom 2015</p>
-				</div>
-			</div>
-			<!-- /.row --> </footer>
-
+			</c:forEach>
 		</div>
-		<!-- /.container -->
+		<!-- /.row -->
+		<a class="btn btn-success" href="recommendedmovies">Get Recommended Movies</a>
+		
+		<hr>
+		<!-- Footer -->
+		<footer>
+		<div class="row">
+			<div class="col-lg-12">
+				<p>Copyright &copy; MovieDotCom 2015</p>
+			</div>
+		</div>
+		<!-- /.row --> </footer>
+
+	</div>
+	<!-- /.container -->
+
+	<script>
+		$(document).ready(function() {
+			var list = document.getElementsByTagName("select");
+			<c:forEach items="${ratings}" var="rating" varStatus="status">
+			list[${status.index}].value = <c:out value="${rating}" />;
+			</c:forEach>
+		});
+		
+		function changeRating(userId, movieId, rating) {
+			$.ajax({
+		        type: "post",
+		        url: "moviesforrating",
+		        data: {"userId":userId, "movieId":movieId, "rating":rating},
+		        success: function(msg) {
+		        	$.notify("Rating Updated", "success");
+		        },
+		        error:function (xhr, ajaxOptions, thrownError){
+		            alert(xhr.status);
+		            alert(thrownError);
+		        }
+		    });
+		}
+	</script>
 </body>
 
 </html>

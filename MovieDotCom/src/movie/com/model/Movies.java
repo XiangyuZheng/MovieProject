@@ -27,7 +27,9 @@ public class Movies {
 		this.description = description;
 	}
 
-
+    public Movies(int movieId) {
+        this.movieId = movieId;
+    }
 	
 	public int getMovieId() {
 		return movieId;
