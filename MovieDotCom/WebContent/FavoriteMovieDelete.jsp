@@ -97,7 +97,7 @@
 				<div class="form-group" <c:if test="${messages.disableSubmit}">style="display:none"</c:if>>
 					<label for="moivetitle" class="col-sm-2 control-label">Movie title</label>
 					<div class="col-sm-10">
-						<input id="movietitle" name="movietitle" value="${fn:escapeXml(param.movietitle)}">
+						<input id="movietitle" name="movietitle" value="${fn:escapeXml(param.title)}">
 					</div>
 				</div>
 				<div class="form-group">

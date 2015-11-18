@@ -96,7 +96,14 @@
 			</div>
 		</div>
 		<div class="row">
-			<form class="form-horizontal" action="userupdate" method="post">
+			<form class="form-horizontal">
+				<div class="form-group">
+					<label for="userid" class="col-sm-2 control-label">UserId:</label>
+					<div class="col-sm-10">
+						<input ng-model="userid" type="text" class="form-control" 
+							id="userid" name="userid" value="${fn:escapeXml(param.userid)}">
+					</div>
+				</div>
 				<div class="form-group">
 					<label for="username" class="col-sm-2 control-label">Username:</label>
 					<div class="col-sm-10">
@@ -108,42 +115,43 @@
 					<label for="password" class="col-sm-2 control-label">Password:</label>
 					<div class="col-sm-10">
 						<input ng-model="password" type="password" class="form-control"
-							id="password" placeholder="New Password">
+							id="password" name="password" placeholder="New Password">
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="firstName" class="col-sm-2 control-label">First
+					<label for="firstname" class="col-sm-2 control-label">First
 						Name:</label>
 					<div class="col-sm-10">
-						<input ng-model="firstName" type="text" class="form-control"
-							id="firstname" placeholder="First Name">
+						<input ng-model="firstname" type="text" class="form-control"
+							id="firstname" name="firstname" placeholder="First Name">
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="lastName" class="col-sm-2 control-label">Last
+					<label for="lastname" class="col-sm-2 control-label">Last
 						Name:</label>
 					<div class="col-sm-10">
-						<input ng-model="lastName" type="text" class="form-control"
-							id="lastname" placeholder="Last Name">
+						<input ng-model="lastname" type="text" class="form-control"
+							id="lastname" name="lastname" placeholder="Last Name">
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="email" class="col-sm-2 control-label">Email:</label>
 					<div class="col-sm-10">
 						<input ng-model="email" type="text" class="form-control"
-							id="email" placeholder="New Email">
+							id="email" name="email" placeholder="New Email">
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="profile" class="col-sm-2 control-label">Profile:</label>
 					<div class="col-sm-10">
 						<input ng-model="profile" type="text" class="form-control"
-							id="profile" placeholder="New Profile">
+							id="profile" name="profile" placeholder="New Profile">
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">
-						<button ng-click="update()" class="btn btn-default">Update</button>
+						<button ng-click="update()" class="btn btn-success">Update</button>
+						<span id="successMessage"><b>${messages.success}</b></span>
 					</div>
 				</div>
 			</form>

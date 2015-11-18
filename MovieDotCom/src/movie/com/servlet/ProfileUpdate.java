@@ -15,7 +15,7 @@ import java.util.*;
 import movie.com.dal.*;
 import movie.com.model.*;
 
-@WebServlet("/updateprofile")
+@WebServlet("/profileupdate")
 public class ProfileUpdate extends HttpServlet {
 	protected UsersDao usersDao;
 	protected FavoriteMoviesDao favoriteMoviesDao;
@@ -40,7 +40,7 @@ public class ProfileUpdate extends HttpServlet {
         req.setAttribute("messages", messages);
 
         // Retrieve user and validate.
-        String userIdStr = req.getParameter("userId");
+        String userIdStr = req.getParameter("userid");
         if (userIdStr == null || userIdStr.trim().isEmpty()) {
             messages.put("success", "Please enter a valid UserName.");
         } else {
@@ -64,7 +64,7 @@ public class ProfileUpdate extends HttpServlet {
 				throw new IOException(e);
 	        }
         }        
-        req.getRequestDispatcher("/UserUpdate.jsp").forward(req, resp);
+        req.getRequestDispatcher("/ProfileUpdate.jsp").forward(req, resp);
 	}
 	
 	@Override
@@ -85,6 +85,7 @@ public class ProfileUpdate extends HttpServlet {
         		if(user == null) {
         			messages.put("success", "UserName does not exist. No update to perform.");
         		} else {
+        			System.out.println("new item: " + req.getParameter("password"));
         			String newFirstName = req.getParameter("firstname");
         			if (newFirstName != null && !newFirstName.trim().isEmpty() && !user.getFirstName().equals(newFirstName)) {
         				user = usersDao.updateLastName(user, newFirstName);
@@ -108,11 +109,19 @@ public class ProfileUpdate extends HttpServlet {
         			messages.put("success", "Successfully updated " + user.getUserName());
         		}
         		req.setAttribute("user", user);
+        		List<FavoriteMovies> favoriteMovies = favoriteMoviesDao.getFavoriteMoviesByUserId(userId);
+        		req.setAttribute("favoriteMovies", favoriteMovies);
+        		List<FavoriteDirectors> favoriteDirectors = favoriteDirectorsDao.getFavoriteDirectorsByUserId(userId);
+        		req.setAttribute("favoriteDirectors", favoriteDirectors);
+        		List<FavoriteActors> favoriteActors = favoriteActorsDao.getFavoriteActorByUserId(userId);
+        		req.setAttribute("favoriteActors", favoriteActors);
+        		List<FavoriteGenres> favoriteGenres = favoriteGenresDao.getFavoriteGenresByUserId(userId);
+        		req.setAttribute("favoriteGenres", favoriteGenres);
         	} catch (SQLException e) {
 				e.printStackTrace();
 				throw new IOException(e);
 	        }
         }        
-        req.getRequestDispatcher("/UserUpdate.jsp").forward(req, resp);
+        req.getRequestDispatcher("/ProfileUpdate.jsp").forward(req, resp);
     }
 }
