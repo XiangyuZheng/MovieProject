@@ -78,6 +78,68 @@ public class UsersDao {
 			}
 		}
 	}
+	
+	/**
+	 * Update the first Name of the Users instance.
+	 * This runs a UPDATE statement.
+	 */
+	public Users updateFirstName(Users user, String newFirstName) throws SQLException {
+		String updateUser = "UPDATE Users SET newFirstName=? WHERE UserId=?;";
+		Connection connection = null;
+		PreparedStatement updateStmt = null;
+		try {
+			connection = connectionManager.getConnection();
+			updateStmt = connection.prepareStatement(updateUser);
+			updateStmt.setString(1, newFirstName);
+			updateStmt.setInt(2, user.getUserId());
+			updateStmt.executeUpdate();
+			
+			// Update the user param before returning to the caller.
+			user.setPassword(newFirstName);
+			return user;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if(connection != null) {
+				connection.close();
+			}
+			if(updateStmt != null) {
+				updateStmt.close();
+			}
+		}
+	}
+	
+	/**
+	 * Update the first Name of the Users instance.
+	 * This runs a UPDATE statement.
+	 */
+	public Users updateLastName(Users user, String newLastName) throws SQLException {
+		String updateUser = "UPDATE Users SET newLastName=? WHERE UserId=?;";
+		Connection connection = null;
+		PreparedStatement updateStmt = null;
+		try {
+			connection = connectionManager.getConnection();
+			updateStmt = connection.prepareStatement(updateUser);
+			updateStmt.setString(1, newLastName);
+			updateStmt.setInt(2, user.getUserId());
+			updateStmt.executeUpdate();
+			
+			// Update the user param before returning to the caller.
+			user.setPassword(newLastName);
+			return user;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if(connection != null) {
+				connection.close();
+			}
+			if(updateStmt != null) {
+				updateStmt.close();
+			}
+		}
+	}
 
 	/**
 	 * Update the Email of the Users instance.

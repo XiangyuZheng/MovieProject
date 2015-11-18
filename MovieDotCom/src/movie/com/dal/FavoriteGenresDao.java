@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import movie.com.model.FavoriteGenres;
 import movie.com.model.Genres;
@@ -111,4 +113,45 @@ public class FavoriteGenresDao {
             }
         }
     }
+
+	public List<FavoriteGenres> getFavoriteGenresByUserId(int userId) throws SQLException {
+		List<FavoriteGenres> favoriteGenres = new ArrayList<FavoriteGenres>();
+		String selectFavoriteGenre = "SELECT FavoriteGenreId,UserId,GenreId"
+                + " FROM FavoriteGenres WHERE UserId=?;";
+        Connection connection = null;
+        PreparedStatement selectStmt = null;
+        ResultSet results = null;
+        try {
+            connection = connectionManager.getConnection();
+            selectStmt = connection.prepareStatement(selectFavoriteGenre);
+            selectStmt.setInt(1, userId);
+            results = selectStmt.executeQuery();
+            UsersDao usersDao = UsersDao.getInstance();
+            GenresDao genreDao = GenresDao.getInstance();
+            while (results.next()) {
+                int favoriteGenresId = results.getInt("FavoriteGenreId");
+                int resultUserId = results.getInt("UserId");
+                int genreId = results.getInt("GenreId");
+                Users user = usersDao.getUserByUserId(resultUserId);
+                Genres genre = genreDao.getGenreById(genreId);
+                FavoriteGenres favoriteGenre = new FavoriteGenres(favoriteGenresId, user,
+                        genre);
+                favoriteGenres.add(favoriteGenre);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+            if (selectStmt != null) {
+                selectStmt.close();
+            }
+            if (results != null) {
+                results.close();
+            }
+        }
+        return favoriteGenres;
+	}
 }

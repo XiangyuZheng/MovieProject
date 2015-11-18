@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import movie.com.model.FavoriteMovies;
 import movie.com.model.Movies;
@@ -90,6 +92,48 @@ public class FavoriteMoviesDao {
             }
         }
         return null;
+    }
+    
+    public List<FavoriteMovies> getFavoriteMoviesByUserId(int userId) throws SQLException {
+    	List<FavoriteMovies> favoriteMovies = new ArrayList<FavoriteMovies>();
+        String selectFavoriteMovies = "SELECT FavoriteMovieId,UserId,MovieId,Rating"
+                + " FROM FavoriteMovies WHERE UserId=?;";
+        Connection connection = null;
+        PreparedStatement selectStmt = null;
+        ResultSet results = null;
+        try {
+            connection = connectionManager.getConnection();
+            selectStmt = connection.prepareStatement(selectFavoriteMovies);
+            selectStmt.setInt(1, userId);
+            results = selectStmt.executeQuery();
+            UsersDao usersDao = UsersDao.getInstance();
+            MoviesDao moviesDao = MoviesDao.getInstance();
+            while (results.next()) {
+                int resultFavoriteMoviesId = results.getInt("FavoriteMovieId");
+                int resultUserId = results.getInt("UserId");
+                int resultMovieId = results.getInt("MovieId");
+                int rating = results.getInt("Rating");
+                Users user = usersDao.getUserByUserId(resultUserId);
+                Movies movie = moviesDao.getMovieById(resultMovieId);
+                FavoriteMovies favoriteMovie = new FavoriteMovies(resultFavoriteMoviesId, user,
+                        movie, rating);
+                favoriteMovies.add(favoriteMovie);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+            if (selectStmt != null) {
+                selectStmt.close();
+            }
+            if (results != null) {
+                results.close();
+            }
+        }
+        return favoriteMovies;
     }
 
     public FavoriteMovies getFavoriteMoviesByUserIdAndMovieId(int userId, int movieId)
