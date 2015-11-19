@@ -16,7 +16,12 @@ public class FavoriteGenres {
         this.favoriteGenreId = favoriteGenreId;
     }
 
-    public int getFavoriteGenreId() {
+    public FavoriteGenres(Users user, Genres genre) {
+    	this.user = user;
+        this.genre = genre;
+	}
+
+	public int getFavoriteGenreId() {
         return favoriteGenreId;
     }
 

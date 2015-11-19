@@ -219,4 +219,45 @@ public class ActorsDao {
 		}
 		return actors;
 	}
+	
+	public Actors getActorByName(String firstName, String lastName) throws SQLException {
+		String selectActor = "SELECT ActorId, Height, Weight, FirstName, LastName, DoB, Profile, Gender"
+				+ " FROM Actors WHERE FirstName=? AND LastName=?;";
+		Connection connection = null;
+		PreparedStatement selectStmt = null;
+		ResultSet results = null;
+		try {
+			connection = connectionManager.getConnection();
+			selectStmt = connection.prepareStatement(selectActor);
+			selectStmt.setString(1, firstName);
+			selectStmt.setString(2, lastName);
+			results = selectStmt.executeQuery();
+			if(results.next()) {
+				int actorId = results.getInt("ActorId");
+				int height = results.getInt("Height");
+				int weight = results.getInt("Weight");
+				String resultFirstName = results.getString("FirstName");
+				String resultLastName = results.getString("LastName");
+				Date doB = results.getDate("DoB");
+				String profile = results.getString("Profile");
+				String gender = results.getString("Gender");
+				Actors actor = new Actors(actorId,height,weight,resultFirstName,resultLastName,doB,profile,gender);
+				return actor;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if(connection != null) {
+				connection.close();
+			}
+			if(selectStmt != null) {
+				selectStmt.close();
+			}
+			if(results != null) {
+				results.close();
+			}
+		}
+		return null;
+	}
 }

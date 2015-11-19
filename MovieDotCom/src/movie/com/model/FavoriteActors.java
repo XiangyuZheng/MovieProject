@@ -6,7 +6,6 @@ public class FavoriteActors {
 	protected Actors actor;
 	
 	public FavoriteActors(int favoriteActorId, Users user, Actors actor) {
-		super();
 		this.favoriteActorId = favoriteActorId;
 		this.user = user;
 		this.actor = actor;
@@ -14,6 +13,11 @@ public class FavoriteActors {
 	
 	public FavoriteActors(int favoriteActorId) {
 		this.favoriteActorId = favoriteActorId;
+	}
+	
+	public FavoriteActors(Users user, Actors actor) {
+		this.user = user;
+		this.actor = actor;
 	}
 	
 	public int getFavoriteActorId() {
