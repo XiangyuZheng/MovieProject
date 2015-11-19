@@ -87,7 +87,7 @@
 			</div>
 		</div>
 		<div class="row">
-			<form class="form-horizontal">
+			<form class="form-horizontal" action="favoritedirectoradd" method="post">
 				<div class="form-group" <c:if test="${messages.disableSubmit}">style="display:none"</c:if>>
 					<label for="userid" class="col-sm-2 control-label">UserId</label>
 					<div class="col-sm-10" >

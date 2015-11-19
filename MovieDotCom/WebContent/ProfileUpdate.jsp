@@ -89,14 +89,14 @@
 
 	<!-- Page Content -->
 	<div class="container hero-spacer">
-
+		
 		<div class="row">
 			<div class="col-lg-12">
 				<h1>User Profile</h1>
 			</div>
 		</div>
 		<div class="row">
-			<form class="form-horizontal">
+			<form class="form-horizontal" action="profileupdate" method="post">
 				<div class="form-group">
 					<label for="userid" class="col-sm-2 control-label">UserId:</label>
 					<div class="col-sm-10">

@@ -86,23 +86,23 @@ public class ProfileUpdate extends HttpServlet {
         			messages.put("success", "UserName does not exist. No update to perform.");
         		} else {
         			String newFirstName = req.getParameter("firstname");
-        			if (newFirstName != null && !newFirstName.trim().isEmpty() && !user.getFirstName().equals(newFirstName)) {
+        			if (newFirstName != null && !newFirstName.trim().isEmpty() && !newFirstName.equals(user.getFirstName())) {
         				user = usersDao.updateLastName(user, newFirstName);
         			}
         			String newLastName = req.getParameter("lastname");
-        			if (newLastName != null && !newLastName.trim().isEmpty() && !user.getLastName().equals(newLastName)) {
+        			if (newLastName != null && !newLastName.trim().isEmpty() && !newLastName.equals(user.getLastName())) {
         				user = usersDao.updateLastName(user, newLastName);
         			}
         			String newPassword = req.getParameter("password");
-        			if (newPassword != null && !newPassword.isEmpty() && !user.getPassword().equals(newPassword)) {
+        			if (newPassword != null && !newPassword.isEmpty() && !newPassword.equals(user.getPassword())) {
         				user = usersDao.updatePassword(user, newPassword);
         			}
         			String newEmail = req.getParameter("email");
-        			if (newEmail != null && !newEmail.trim().isEmpty() && !user.getEmail().equals(newEmail)) {
+        			if (newEmail != null && !newEmail.trim().isEmpty() && !newEmail.equals(user.getEmail())) {
         				user = usersDao.updateEmail(user, newEmail);
         			}
         			String newProfile = req.getParameter("profile");
-        			if (newProfile != null && !newProfile.trim().isEmpty() && !user.getProfile().equals(newProfile)) {
+        			if (newProfile != null && !newProfile.trim().isEmpty() && !newProfile.equals(user.getProfile())) {
         				user = usersDao.updateProfile(user, newProfile);
         			}
         			messages.put("success", "Successfully updated " + user.getUserName());

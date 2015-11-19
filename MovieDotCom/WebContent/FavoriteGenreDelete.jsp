@@ -87,7 +87,7 @@
 			</div>
 		</div>
 		<div class="row">
-			<form class="form-horizontal">
+			<form class="form-horizontal" action="favoritegenredelete" method="post">
 				<div class="form-group" <c:if test="${messages.disableSubmit}">style="display:none"</c:if>>
 					<label for="id" class="col-sm-2 control-label">Favorite movie genre id</label>
 					<div class="col-sm-10" >
@@ -102,7 +102,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">
-						<button ng-click="update()" class="btn btn-default">remove</button>
+						<button ng-click="update()" class="btn btn-success">remove</button>
 					</div>
 				</div>
 			</form>

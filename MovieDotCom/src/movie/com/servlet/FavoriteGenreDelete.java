@@ -40,15 +40,18 @@ public class FavoriteGenreDelete extends HttpServlet {
         // Map for storing messages.
         Map<String, String> messages = new HashMap<String, String>();
         req.setAttribute("messages", messages);
+        System.out.println("Start...");
 
         // Retrieve and validate name.
         String favoriteGenreStr = req.getParameter("id");
         if (favoriteGenreStr == null || favoriteGenreStr.trim().isEmpty()) {
             messages.put("title", "Invalid favorite movie type");
             messages.put("disableSubmit", "true");
+            System.out.println(favoriteGenreStr);
         } else {
         	int favoriteGenreId = Integer.parseInt(favoriteGenreStr);
         	FavoriteGenres favoriteGenre = new FavoriteGenres(favoriteGenreId);
+        	System.out.println("favorite genre id: " + favoriteGenreId);
 	        try {
 	        	favoriteGenre =favoriteGenresDao.delete(favoriteGenre);
 	        	// Update the message.

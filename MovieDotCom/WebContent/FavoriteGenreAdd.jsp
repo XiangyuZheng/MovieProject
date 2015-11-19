@@ -87,7 +87,7 @@
 			</div>
 		</div>
 		<div class="row">
-			<form class="form-horizontal">
+			<form class="form-horizontal" action="favoritegenreadd" method="post">
 				<div class="form-group" <c:if test="${messages.disableSubmit}">style="display:none"</c:if>>
 					<label for="userid" class="col-sm-2 control-label">UserId</label>
 					<div class="col-sm-10" >
@@ -127,7 +127,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">
-						<button ng-click="update()" class="btn btn-default">add</button>
+						<button ng-click="update()" class="btn btn-success">add</button>
 					</div>
 				</div>
 			</form>

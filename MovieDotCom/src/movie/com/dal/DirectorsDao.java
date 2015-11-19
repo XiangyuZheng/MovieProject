@@ -157,7 +157,10 @@ public class DirectorsDao {
 				int directorId = results.getInt("DirectorId");
 				String resultFirstName = results.getString("FirstName");
 				String resultLastName = results.getString("LastName");
-				Date dob = new Date(results.getTimestamp("DoB").getTime());
+				Date dob = new Date();
+				if (results.getString("DoB") != null) {
+					dob = new Date(results.getTimestamp("DoB").getTime());
+				}
 				String profile = results.getString("Profile");
 				String gender = results.getString("Gender");			
 				Directors director = 
