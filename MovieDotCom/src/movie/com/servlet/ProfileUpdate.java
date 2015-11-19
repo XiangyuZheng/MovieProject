@@ -85,7 +85,6 @@ public class ProfileUpdate extends HttpServlet {
         		if(user == null) {
         			messages.put("success", "UserName does not exist. No update to perform.");
         		} else {
-        			System.out.println("new item: " + req.getParameter("password"));
         			String newFirstName = req.getParameter("firstname");
         			if (newFirstName != null && !newFirstName.trim().isEmpty() && !user.getFirstName().equals(newFirstName)) {
         				user = usersDao.updateLastName(user, newFirstName);

@@ -150,7 +150,7 @@
 		$(document).ready(function() {
 			var list = document.getElementsByTagName("select");
 			<c:forEach items="${ratings}" var="rating" varStatus="status">
-			list[${status.index}].value = <c:out value="${rating}" />;
+			list["${status.index}"].value = <c:out value="${rating}" />;
 			</c:forEach>
 		});
 		

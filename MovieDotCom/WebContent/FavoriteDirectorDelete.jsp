@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Remove Favorite Movie</title>
+<title>Remove Favorite Director</title>
 
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet"
@@ -89,15 +89,21 @@
 		<div class="row">
 			<form class="form-horizontal">
 				<div class="form-group" <c:if test="${messages.disableSubmit}">style="display:none"</c:if>>
-					<label for="id" class="col-sm-2 control-label">Favorite movie id</label>
+					<label for="id" class="col-sm-2 control-label">Favorite director id</label>
 					<div class="col-sm-10" >
 						<input id="id" name="id" value="${fn:escapeXml(param.id)}">
 					</div>
 				</div>
 				<div class="form-group" <c:if test="${messages.disableSubmit}">style="display:none"</c:if>>
-					<label for="title" class="col-sm-2 control-label">Movie title</label>
+					<label for="fn" class="col-sm-2 control-label">First name</label>
 					<div class="col-sm-10">
-						<input id="title" name="title" value="${fn:escapeXml(param.title)}">
+						<input id="fn" name="fn" value="${fn:escapeXml(param.fn)}">
+					</div>
+				</div>
+				<div class="form-group" <c:if test="${messages.disableSubmit}">style="display:none"</c:if>>
+					<label for="ln" class="col-sm-2 control-label">Last name</label>
+					<div class="col-sm-10">
+						<input id="ln" name="ln" value="${fn:escapeXml(param.ln)}">
 					</div>
 				</div>
 				<div class="form-group">

@@ -65,11 +65,11 @@ public class Actors {
 		this.weight = weight;
 	}
 
-	public String getFirstNmae() {
+	public String getFirstName() {
 		return firstNmae;
 	}
 
-	public void setFirstNmae(String firstNmae) {
+	public void setFirstName(String firstNmae) {
 		this.firstNmae = firstNmae;
 	}
 

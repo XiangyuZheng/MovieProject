@@ -39,7 +39,7 @@ public class ActorsDao {
 				Statement.RETURN_GENERATED_KEYS);
 			insertStmt.setInt(1, actor.getHeight());
 			insertStmt.setInt(2, actor.getWeight());			
-			insertStmt.setString(3, actor.getFirstNmae());
+			insertStmt.setString(3, actor.getFirstName());
 			insertStmt.setString(4, actor.getLastName());
 			insertStmt.setDate(5, actor.getDoB());	
 			insertStmt.setString(6, actor.getProfile());

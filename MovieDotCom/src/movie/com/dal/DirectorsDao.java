@@ -1,12 +1,12 @@
 package movie.com.dal;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.Date;
 
 import movie.com.model.*;
 
@@ -111,7 +111,10 @@ public class DirectorsDao {
 				int resultDirectorId = results.getInt("DirectorId");
 				String firstName = results.getString("FirstName");
 				String lastName = results.getString("LastName");
-				Date dob = new Date(results.getTimestamp("DoB").getTime());
+				Date dob = new Date();
+				if (results.getString("DoB") != null) {
+					dob = new Date(results.getTimestamp("DoB").getTime());
+				}
 				String profile = results.getString("Profile");
 				String gender = results.getString("Gender");			
 				Directors director = 

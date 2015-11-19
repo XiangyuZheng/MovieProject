@@ -63,7 +63,7 @@ public class GenresDao {
     }
 
     public Genres getGenreById(int genreId) throws SQLException {
-        String selectGenre = "SELECT GenreId,GenreType FROM GenreTypes WHERE GenreId=?;";
+        String selectGenre = "SELECT GenreId,GenreType FROM Genres WHERE GenreId=?;";
         Connection connection = null;
         PreparedStatement selectStmt = null;
         ResultSet results = null;

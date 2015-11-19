@@ -169,15 +169,21 @@
       					<th>Delete favorite movie</th>
     				</tr>
 				</thead>
+				<tbody>
 					<c:forEach items="${favoriteMovies}" var="favoriteMovie">
 						<tr>
 							<td><c:out value="${favoriteMovie.getMovie().getTitle()}"/></td>
 							<td><c:out value="${favoriteMovie.getMovie().getYear()}"/></td>
 							<td><c:out value="${favoriteMovie.getMovie().getDescription()}"></c:out></td>
-							<td><a href="moviedelete?favoriteMovieId=<c:out value="${favoriteMovie.getFavoriteMovieId()}" />" >remove movie</a></td>
+							<td><a href="favoritemoviedelete?id=<c:out value="${favoriteMovie.getFavoriteMovieId()}" />&
+							title=<c:out value="${favoriteMovie.getMovie().getTitle()}" />" >remove movie</a></td>
 						</tr>
 					</c:forEach>
+				</tbody>
 			</table>
+		</div>
+		<div id="favoriteMovieAdd">
+			<a href="moviesforrating?userid=<c:out value="${fn:escapeXml(param.userid)}" />">Add Favorite Movie</a>
 		</div>
 		
 		<div>
@@ -194,10 +200,15 @@
 						<tr>
 							<td><c:out value="${favoriteDirector.getDirector().getFirstName()}"/></td>
 							<td><c:out value="${favoriteDirector.getDirector().getLastName()}"/></td>
-							<td><a href="directordelete?favoriteDirectorId=<c:out value="${favoriteDirector.getFavoriteDirectorId()}" />" >remove director</a></td>
+							<td><a href="favoritedirectordelete?id=<c:out value="${favoriteDirector.getFavoriteDirectorId()}" />&
+							fn=<c:out value="${favoriteDirector.getDirector().getFirstName()}" />&
+							ln=<c:out value="${favoriteDirector.getDirector().getLastName()}" />" >remove director</a></td>
 						</tr>
 					</c:forEach>
 			</table>
+		</div>
+		<div id="favoriteDirectorAdd">
+			<a href="favoritedirectoradd?userid=<c:out value="${fn:escapeXml(param.userid)}" />">Add Favorite Director</a>
 		</div>
 		
 		<div>
@@ -210,14 +221,21 @@
       					<th>Delete favorite actor</th>
     				</tr>
 				</thead>
+				<tbody>
 					<c:forEach items="${favoriteActors}" var="favoriteActor">
 						<tr>
 							<td><c:out value="${favoriteActor.getActor().getFirstName()}"/></td>
 							<td><c:out value="${favoriteActor.getActor().getLastName()}"/></td>
-							<td><a href="actordelete?favoriteActorId=<c:out value="${favoriteActor.getFavoriteActorId()}" />" >remove actor</a></td>
+							<td><a href="favoriteactordelete?id=<c:out value="${favoriteActor.getFavoriteActorId()}" />&
+							fn=<c:out value="${favoriteActor.getActor().getFirstName()}" />&
+							ln=<c:out value="${favoriteActor.getActor().getLastName()}" />" >remove actor</a></td>
 						</tr>
 					</c:forEach>
+				</tbody>
 			</table>
+		</div>
+		<div id="favoriteActorAdd">
+			<a href="favoriteactoradd?userid=<c:out value="${fn:escapeXml(param.userid)}" />">Add Favorite Actor</a>
 		</div>
 		
 		<div>
@@ -229,13 +247,19 @@
       					<th>Delete favorite movie genre</th>
     				</tr>
 				</thead>
+				<tbody>
 					<c:forEach items="${favoriteGenres}" var="favoriteGenre">
 						<tr>
 							<td><c:out value="${favoriteGenre.getGenre().getGenreType().toString()}"/></td>
-							<td><a href="genredelete?favoriteGenreId=<c:out value="${favoriteGenre.getFavoriteGenreId()}" />" >remove genre</a></td>
+							<td><a href="favoritegenredelete?id=<c:out value="${favoriteGenre.getFavoriteGenreId()}" />&
+							type=<c:out value="${favoriteGenre.getGenre().getGenreType().toString()}"/>" >remove genre</a></td>
 						</tr>
 					</c:forEach>
+				</tbody>
 			</table>
+		</div>
+		<div id="favoriteGenreAdd">
+			<a href="favoritegenreadd?userid=<c:out value="${fn:escapeXml(param.userid)}" />">Add Favorite Movie Genre</a>
 		</div>
 		
 		<hr>
