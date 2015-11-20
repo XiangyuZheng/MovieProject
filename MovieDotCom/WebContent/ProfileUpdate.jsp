@@ -108,14 +108,14 @@
 					<label for="username" class="col-sm-2 control-label">Username:</label>
 					<div class="col-sm-10">
 						<input ng-model="username" type="text" class="form-control" 
-							id="username" name="username" value="${fn:escapeXml(param.username)}">
+							id="username" name="username" value="${user.getUserName()}">
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="password" class="col-sm-2 control-label">Password:</label>
 					<div class="col-sm-10">
 						<input ng-model="password" type="password" class="form-control"
-							id="password" name="password" placeholder="New Password">
+							id="password" name="password" placeholder="${user.getPassword()}">
 					</div>
 				</div>
 				<div class="form-group">
@@ -123,7 +123,7 @@
 						Name:</label>
 					<div class="col-sm-10">
 						<input ng-model="firstname" type="text" class="form-control"
-							id="firstname" name="firstname" placeholder="First Name">
+							id="firstname" name="firstname" placeholder="${user.getFirstName()}">
 					</div>
 				</div>
 				<div class="form-group">
@@ -131,21 +131,21 @@
 						Name:</label>
 					<div class="col-sm-10">
 						<input ng-model="lastname" type="text" class="form-control"
-							id="lastname" name="lastname" placeholder="Last Name">
+							id="lastname" name="lastname" placeholder="${user.getLastName()}">
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="email" class="col-sm-2 control-label">Email:</label>
 					<div class="col-sm-10">
 						<input ng-model="email" type="text" class="form-control"
-							id="email" name="email" placeholder="New Email">
+							id="email" name="email" placeholder="${user.getEmail()}">
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="profile" class="col-sm-2 control-label">Profile:</label>
 					<div class="col-sm-10">
 						<input ng-model="profile" type="text" class="form-control"
-							id="profile" name="profile" placeholder="New Profile">
+							id="profile" name="profile" placeholder="${user.getProfile()}">
 					</div>
 				</div>
 				<div class="form-group">
