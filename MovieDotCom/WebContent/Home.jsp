@@ -29,8 +29,6 @@
 <!-- Latest compiled and minified JavaScript -->
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.3.4/notify.min.js"></script>
 
 <!-- Custom CSS -->
 <link href="css/half-slider.css" rel="stylesheet">
@@ -65,10 +63,9 @@
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li><a href="home">Home</a></li>
+				<li class="active"><a href="home">Home</a></li>
 				<li><a href="popular">Popular Movies</a></li>
-				<li class="active"><a href="moviesforrating">Customized
-						recommendation</a></li>
+				<li><a href="moviesforrating">Customized recommendation</a></li>
 				<li><a href="about.view.html">About</a></li>
 			</ul>
 
@@ -90,50 +87,83 @@
 	</div>
 	<!-- /.container --> </nav>
 
+	<!-- Half Page Image Background Carousel Header -->
+	<header id="myCarousel" class="carousel slide"> <!-- Indicators -->
+	<ol class="carousel-indicators">
+		<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+		<li data-target="#myCarousel" data-slide-to="1"></li>
+		<li data-target="#myCarousel" data-slide-to="2"></li>
+	</ol>
+
+	<!-- Wrapper for Slides -->
+	<div class="carousel-inner">
+		<div class="item active">
+			<!-- Set the first background image using inline CSS below. -->
+			<div class="fill"
+				style="background-image: url('http://www.unicron.us/tf2007/moviepromo/transformers_final_standee.jpg');"></div>
+		</div>
+		<div class="item">
+			<!-- Set the second background image using inline CSS below. -->
+			<div class="fill"
+				style="background-image: url('http://lodgiesreviews.altervista.org/images/inception_poster.jpg');"></div>
+		</div>
+		<div class="item">
+			<!-- Set the third background image using inline CSS below. -->
+			<div class="fill"
+				style="background-image: url('http://www.wallpapersbyte.com/wp-content/uploads/2015/07/Fantastic-Four-4-2015-Movie-Poster-The-Human-Torch-Mister-Fantastic-Susan-Storm-Thing-Doctor-Doom-WallpapersByte-com-2560x1080.jpg');"></div>
+		</div>
+	</div>
+
+	<!-- Controls --> <a class="left carousel-control" href="#myCarousel"
+		data-slide="prev"> <span class="icon-prev"></span>
+	</a> <a class="right carousel-control" href="#myCarousel" data-slide="next">
+		<span class="icon-next"></span>
+	</a> </header>
+
 	<!-- Page Content -->
-	<div class="container hero-spacer">
+	<div class="container">
 
 		<div class="row">
 			<div class="col-lg-12">
-				<h1>Please rate the movies you know</h1>
+				<h1>Latest Movies</h1>
 			</div>
 		</div>
 
 		<!-- Page Features -->
 		<div class="row text-center">
 			<c:forEach items="${movies}" var="m">
-				<div class="col-md-3 col-sm-6 hero-feature">
-					<div class="thumbnail" style="height: 500px;">
-						<img height="500" width="800"
-							src='<c:out value="${m.getImageURL()}" />' alt="starting">
-						<div class="caption">
-							<h4>
-								<c:out value="${m.getTitle()}" />
-							</h4>
-							<label>Your Rating:</label> <select
-								onchange="changeRating(111, <c:out value='${m.getMovieId()}' />, this.value)"
-								class="form-control">
-								<option value=0>Please Choose</option>
-								<option value=1>1</option>
-								<option value=2>2</option>
-								<option value=3>3</option>
-								<option value=4>4</option>
-								<option value=5>5</option>
-								<option value=6>6</option>
-								<option value=7>7</option>
-								<option value=8>8</option>
-								<option value=9>9</option>
-								<option value=10>10</option>
-							</select>
+				<a href="movieinfo?movieid=<c:out value="${m.getMovieId()}" />">
+					<div onclick='gotoMovieInfo(<c:out value="${m.getMovieId()}" />)'
+						class="col-md-3 col-sm-6 hero-feature">
+						<div class="thumbnail" style="height: 500px; overflow: hidden;">
+							<img height="500" width="800"
+								src='<c:out value="${m.getImageURL()}" />' alt="starting">
+							<div class="caption">
+								<h3>
+									<c:out value="${m.getTitle()}" />
+								</h3>
+								<p>
+									<font color="blue">Year</font>:
+									<c:out value="${m.getYear()}" />
+								</p>
+								<p>
+									<font color="blue">Rating</font>:
+									<c:out value="${m.getRating()}" />
+								</p>
+								<p>
+									<font color="blue">Description</font>:
+									<c:out value="${m.getDescription()}" />
+								</p>
+							</div>
 						</div>
 					</div>
-				</div>
+				</a>
 			</c:forEach>
 		</div>
 		<!-- /.row -->
-		<a class="btn btn-success" href="recommendedmovies">Get Recommended Movies</a>
-		
+
 		<hr>
+
 		<!-- Footer -->
 		<footer>
 		<div class="row">
@@ -146,29 +176,14 @@
 	</div>
 	<!-- /.container -->
 
+	<!-- Script to Activate the Carousel -->
 	<script>
-		$(document).ready(function() {
-			var list = document.getElementsByTagName("select");
-			<c:forEach items="${ratings}" var="rating" varStatus="status">
-			list["${status.index}"].value = <c:out value="${rating}" />;
-			</c:forEach>
-		});
-		
-		function changeRating(userId, movieId, rating) {
-			$.ajax({
-		        type: "post",
-		        url: "moviesforrating",
-		        data: {"userId":userId, "movieId":movieId, "rating":rating},
-		        success: function(msg) {
-		        	$.notify("Rating Updated", "success");
-		        },
-		        error:function (xhr, ajaxOptions, thrownError){
-		            alert(xhr.status);
-		            alert(thrownError);
-		        }
-		    });
-		}
+		$('.carousel').carousel({
+			interval : 5000
+		//changes the speed
+		})
 	</script>
+
 </body>
 
 </html>

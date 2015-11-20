@@ -63,8 +63,8 @@
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li><a href="home.view.html">Home</a></li>
-				<li><a href="popular-movie.view.html">Popular Movies</a></li>
+				<li><a href="home">Home</a></li>
+				<li><a href="popular">Popular Movies</a></li>
 				<li class="active"><a href="moviesforrating">Customized
 						recommendation</a></li>
 				<li><a href="about.view.html">About</a></li>
@@ -102,29 +102,31 @@
 			<div class="row text-center">
 				<div class="col-md-9 hero-feature">
 					<c:forEach items="${movies}" var="m">
-						<div class="col-md-3 col-sm-6 hero-feature">
-							<div class="thumbnail" style="height: 500px; overflow: hidden;">
-								<img height="500" width="800"
-									src='<c:out value="${m.getImageURL()}" />' alt="starting">
-								<div class="caption">
-									<h3>
-										<c:out value="${m.getTitle()}" />
-									</h3>
-									<p>
-										<font color="blue">Year</font>:
-										<c:out value="${m.getYear()}" />
-									</p>
-									<p>
-										<font color="blue">Rating</font>:
-										<c:out value="${m.getRating()}" />
-									</p>
-									<p>
-										<font color="blue">Description</font>:
-										<c:out value="${m.getDescription()}" />
-									</p>
+						<a href="movieinfo?movieid=<c:out value="${m.getMovieId()}" />">
+							<div class="col-md-3 col-sm-6 hero-feature">
+								<div class="thumbnail" style="height: 500px; overflow: hidden;">
+									<img height="500" width="800"
+										src='<c:out value="${m.getImageURL()}" />' alt="starting">
+									<div class="caption">
+										<h3>
+											<c:out value="${m.getTitle()}" />
+										</h3>
+										<p>
+											<font color="blue">Year</font>:
+											<c:out value="${m.getYear()}" />
+										</p>
+										<p>
+											<font color="blue">Rating</font>:
+											<c:out value="${m.getRating()}" />
+										</p>
+										<p>
+											<font color="blue">Description</font>:
+											<c:out value="${m.getDescription()}" />
+										</p>
+									</div>
 								</div>
 							</div>
-						</div>
+						</a>
 					</c:forEach>
 				</div>
 				<div class="col-md-3 col-sm-6 hero-feature">

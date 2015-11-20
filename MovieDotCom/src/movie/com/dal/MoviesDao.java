@@ -94,6 +94,7 @@ public class MoviesDao {
                 String title = results.getString("Title");
                 int year = results.getInt("Year");
                 String imageURL = results.getString("ImageURL");
+                imageURL = imageURL.replace("_SX54_CR0,0,54,74_", "_SX432_CR0,0,432,592_");
                 Double rating = results.getDouble("Rating");
                 String description = results.getString("Description");
                 Movies movie = new Movies(resultMovieId, title, year, imageURL,
@@ -210,7 +211,94 @@ public class MoviesDao {
         List<Movies> movies = new ArrayList<Movies>();
         String selectMovies = "SELECT MovieId,Title,Year,ImageURL,Rating,Description "
                 + "FROM Movies "
-                + "LIMIT 12;";
+                + "LIMIT 12 OFFSET 20;";
+        Connection connection = null;
+        PreparedStatement selectStmt = null;
+        ResultSet results = null;
+        try {
+            connection = connectionManager.getConnection();
+            selectStmt = connection.prepareStatement(selectMovies);
+            // selectStmt.setInt(1, userId);
+            results = selectStmt.executeQuery();
+            while (results.next()) {
+                int movieId = results.getInt("MovieId");
+                String resultTitle = results.getString("Title");
+                int year = results.getInt("Year");
+                String imageURL = results.getString("ImageURL");
+                // hack here
+                imageURL = imageURL.replace("_SX54_CR0,0,54,74_", "_SX216_CR0,0,216,296_");
+                int rating = results.getInt("Rating");
+                String description = results.getString("Description");
+                Movies movie = new Movies(movieId, resultTitle, year, imageURL, rating,
+                        description);
+                movies.add(movie);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+            if (selectStmt != null) {
+                selectStmt.close();
+            }
+            if (results != null) {
+                results.close();
+            }
+        }
+        return movies;
+    }
+
+    public List<Movies> getFourLatestMovies() throws SQLException {
+        List<Movies> movies = new ArrayList<Movies>();
+        String selectMovies = "SELECT MovieId,Title,Year,ImageURL,Rating,Description "
+                + "FROM Movies "
+                + "LIMIT 4;";
+        Connection connection = null;
+        PreparedStatement selectStmt = null;
+        ResultSet results = null;
+        try {
+            connection = connectionManager.getConnection();
+            selectStmt = connection.prepareStatement(selectMovies);
+            // selectStmt.setInt(1, userId);
+            results = selectStmt.executeQuery();
+            while (results.next()) {
+                int movieId = results.getInt("MovieId");
+                String resultTitle = results.getString("Title");
+                int year = results.getInt("Year");
+                String imageURL = results.getString("ImageURL");
+                // hack here
+                imageURL = imageURL.replace("_SX54_CR0,0,54,74_", "_SX216_CR0,0,216,296_");
+                int rating = results.getInt("Rating");
+                String description = results.getString("Description");
+                Movies movie = new Movies(movieId, resultTitle, year, imageURL, rating,
+                        description);
+                movies.add(movie);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+            if (selectStmt != null) {
+                selectStmt.close();
+            }
+            if (results != null) {
+                results.close();
+            }
+        }
+        return movies;
+    }
+
+    public List<Movies> getPopularMovies() throws SQLException {
+        List<Movies> movies = new ArrayList<Movies>();
+        String selectMovies = "SELECT MovieId,Title,Year,ImageURL,Rating,Description "
+                + "FROM Movies "
+                + "WHERE Year = 2015 AND Rating >= 8 "
+                + "LIMIT 20;";
         Connection connection = null;
         PreparedStatement selectStmt = null;
         ResultSet results = null;

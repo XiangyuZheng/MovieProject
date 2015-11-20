@@ -59,10 +59,10 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="home.view.html">Home</a>
+                        <a href="home">Home</a>
                     </li>
                     <li>
-                        <a href="popular-movie.view.html">Popular Movies</a>
+                        <a href="popular">Popular Movies</a>
                     </li>
                     <li>
                         <a href="moviesforrating">Customized recommendation</a>
