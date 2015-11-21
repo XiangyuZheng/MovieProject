@@ -31,7 +31,7 @@ public class FavoriteMovieDelete extends HttpServlet {
         req.setAttribute("messages", messages);
         // Provide a title and render the JSP.
         messages.put("title", "Delete Favorite Movie");        
-        req.getRequestDispatcher("/FavoriteMovieDelete.jsp").forward(req, resp);
+        req.getRequestDispatcher("/ProfileUpdate.jsp").forward(req, resp);
 	}
 	
 	@Override
@@ -42,7 +42,7 @@ public class FavoriteMovieDelete extends HttpServlet {
         req.setAttribute("messages", messages);
 
         // Retrieve and validate name.
-        String favoriteMovieStr = req.getParameter("id");
+        String favoriteMovieStr = req.getParameter("favoriteMovieId");
         if (favoriteMovieStr == null || favoriteMovieStr.trim().isEmpty()) {
             messages.put("title", "Invalid favorite movie");
             messages.put("disableSubmit", "true");
@@ -64,6 +64,6 @@ public class FavoriteMovieDelete extends HttpServlet {
 				throw new IOException(e);
 	        }
         }        
-        req.getRequestDispatcher("/FavoriteMovieDelete.jsp").forward(req, resp);
+        req.getRequestDispatcher("/ForAjax.jsp").forward(req, resp);
     }
 }

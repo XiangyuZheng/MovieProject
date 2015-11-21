@@ -31,7 +31,7 @@ public class FavoriteDirectorDelete extends HttpServlet {
         req.setAttribute("messages", messages);
         // Provide a title and render the JSP.
         messages.put("title", "Delete Favorite Director");        
-        req.getRequestDispatcher("/FavoriteDirectorDelete.jsp").forward(req, resp);
+        req.getRequestDispatcher("/ProfileUpdate.jsp").forward(req, resp);
 	}
 	
 	@Override
@@ -42,7 +42,7 @@ public class FavoriteDirectorDelete extends HttpServlet {
         req.setAttribute("messages", messages);
 
         // Retrieve and validate name.
-        String favoriteDirectorStr = req.getParameter("id");
+        String favoriteDirectorStr = req.getParameter("favoriteDirectorId");
         if (favoriteDirectorStr == null || favoriteDirectorStr.trim().isEmpty()) {
             messages.put("title", "Invalid favorite director");
             messages.put("disableSubmit", "true");
@@ -64,6 +64,6 @@ public class FavoriteDirectorDelete extends HttpServlet {
 				throw new IOException(e);
 	        }
         }        
-        req.getRequestDispatcher("/FavoriteDirectorDelete.jsp").forward(req, resp);
+        req.getRequestDispatcher("/ForAjax.jsp").forward(req, resp);
     }
 }

@@ -80,7 +80,7 @@ public class ProfileUpdate extends HttpServlet {
             messages.put("success", "Please enter a valid UserName.");
         } else {
         	try {
-        		int userId = Integer.parseInt(userIdStr);
+        		int userId = Integer.parseInt(userIdStr);       		
         		Users user = usersDao.getUserByUserId(userId);
         		if(user == null) {
         			messages.put("success", "UserName does not exist. No update to perform.");

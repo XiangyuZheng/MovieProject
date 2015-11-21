@@ -29,7 +29,9 @@
 <!-- Latest compiled and minified JavaScript -->
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.3.4/notify.min.js"></script>
+	
 <!-- Custom CSS -->
 <link href="css/half-slider.css" rel="stylesheet">
 <link href="css/heroic-features.css" rel="stylesheet">
@@ -96,7 +98,7 @@
 			</div>
 		</div>
 		<div class="row">
-			<form class="form-horizontal" action="profileupdate" method="post">
+			<form class="form-horizontal">
 				<div class="form-group">
 					<label for="userid" class="col-sm-2 control-label">UserId:</label>
 					<div class="col-sm-10">
@@ -115,7 +117,7 @@
 					<label for="password" class="col-sm-2 control-label">Password:</label>
 					<div class="col-sm-10">
 						<input ng-model="password" type="password" class="form-control"
-							id="password" name="password" placeholder="${user.getPassword()}">
+							id="password" name="password" value="" placeholder="${user.getPassword()}">
 					</div>
 				</div>
 				<div class="form-group">
@@ -150,8 +152,16 @@
 				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">
-						<button ng-click="update()" class="btn btn-success">Update</button>
-						<span id="successMessage"><b>${messages.success}</b></span>
+						<button 
+							ng-click="update()" 
+							class="btn btn-success"
+							onclick="updateProfile(
+								<c:out value="$('#userid').val()" />, 
+								<c:out value="$('#password').val()" />,
+								<c:out value="$('#firstname').val()" />,
+								<c:out value="$('#lastname').val()" />,
+								<c:out value="$('#email').val()" />,
+								<c:out value="$('#profile').val()" />)">Update</button>
 					</div>
 				</div>
 			</form>
@@ -175,15 +185,15 @@
 							<td><c:out value="${favoriteMovie.getMovie().getTitle()}"/></td>
 							<td><c:out value="${favoriteMovie.getMovie().getYear()}"/></td>
 							<td><c:out value="${favoriteMovie.getMovie().getDescription()}"></c:out></td>
-							<td><a href="favoritemoviedelete?id=<c:out value="${favoriteMovie.getFavoriteMovieId()}" />&
-							title=<c:out value="${favoriteMovie.getMovie().getTitle()}" />" >remove movie</a></td>
+							<td><button 
+								ng-click="update()" class="btn btn-default"  onclick="deleteFavoriteMovie(<c:out value="${favoriteMovie.getFavoriteMovieId()}" />)">Delete</button></td>
 						</tr>
 					</c:forEach>
 				</tbody>
 			</table>
 		</div>
 		<div id="favoriteMovieAdd">
-			<a href="moviesforrating?userid=<c:out value="${fn:escapeXml(param.userid)}" />">Add Favorite Movie</a>
+			<a href="moviesforrating?userid=<c:out value="${user.getUserId()}" />">Add Favorite Movie</a>
 		</div>
 		
 		<div>
@@ -200,15 +210,14 @@
 						<tr>
 							<td><c:out value="${favoriteDirector.getDirector().getFirstName()}"/></td>
 							<td><c:out value="${favoriteDirector.getDirector().getLastName()}"/></td>
-							<td><a href="favoritedirectordelete?id=<c:out value="${favoriteDirector.getFavoriteDirectorId()}" />&
-							fn=<c:out value="${favoriteDirector.getDirector().getFirstName()}" />&
-							ln=<c:out value="${favoriteDirector.getDirector().getLastName()}" />" >remove director</a></td>
+							<td><button 
+								ng-click="update()" class="btn btn-default"  onclick="deleteFavoriteDirector(<c:out value="${favoriteDirector.getFavoriteDirectorId()}" />)">Delete</button></td>
 						</tr>
 					</c:forEach>
 			</table>
 		</div>
 		<div id="favoriteDirectorAdd">
-			<a href="favoritedirectoradd?userid=<c:out value="${fn:escapeXml(param.userid)}" />">Add Favorite Director</a>
+			<a href="favoritedirectoradd?userid=<c:out value="${user.getUserId()}" />">Add Favorite Director</a>
 		</div>
 		
 		<div>
@@ -226,16 +235,15 @@
 						<tr>
 							<td><c:out value="${favoriteActor.getActor().getFirstName()}"/></td>
 							<td><c:out value="${favoriteActor.getActor().getLastName()}"/></td>
-							<td><a href="favoriteactordelete?id=<c:out value="${favoriteActor.getFavoriteActorId()}" />&
-							fn=<c:out value="${favoriteActor.getActor().getFirstName()}" />&
-							ln=<c:out value="${favoriteActor.getActor().getLastName()}" />" >remove actor</a></td>
+							<td><button 
+								ng-click="update()" class="btn btn-default"  onclick="deleteFavoriteActor(<c:out value="${favoriteActor.getFavoriteActorId()}" />)">Delete</button></td>
 						</tr>
 					</c:forEach>
 				</tbody>
 			</table>
 		</div>
 		<div id="favoriteActorAdd">
-			<a href="favoriteactoradd?userid=<c:out value="${fn:escapeXml(param.userid)}" />">Add Favorite Actor</a>
+			<a href="favoriteactoradd?userid=<c:out value="${user.getUserId()}" />">Add Favorite Actor</a>
 		</div>
 		
 		<div>
@@ -251,15 +259,15 @@
 					<c:forEach items="${favoriteGenres}" var="favoriteGenre">
 						<tr>
 							<td><c:out value="${favoriteGenre.getGenre().getGenreType().toString()}"/></td>
-							<td><a href="favoritegenredelete?id=<c:out value="${favoriteGenre.getFavoriteGenreId()}" />&
-							type=<c:out value="${favoriteGenre.getGenre().getGenreType().toString()}"/>" >remove genre</a></td>
+							<td><button 
+								ng-click="update()" class="btn btn-default"  onclick="deleteFavoriteGenre(<c:out value="${favoriteGenre.getFavoriteGenreId()}" />)">Delete</button>
 						</tr>
 					</c:forEach>
 				</tbody>
 			</table>
 		</div>
 		<div id="favoriteGenreAdd">
-			<a href="favoritegenreadd?userid=<c:out value="${fn:escapeXml(param.userid)}" />">Add Favorite Movie Genre</a>
+			<a href="favoritegenreadd?userid=<c:out value="${user.getUserId()}" />">Add Favorite Movie Genre</a>
 		</div>
 		
 		<hr>
@@ -281,6 +289,87 @@
 			interval : 5000
 		//changes the speed
 		})
+		
+		function updateProfile(userid, password, firstname, lastname, email, profile) {
+			$.ajax({
+		        type: "post",
+		        url: "profileupdate",
+		        data: {"userid":userid, "password":password, "firstname":firstname,
+		        	"lastname": lastname, "email":email, "profile": profile},
+		        success: function(msg) {
+		        	$.notify("User profile updated", "success");
+		        	location.reload();
+		        },
+		        error:function (xhr, ajaxOptions, thrownError){
+		            alert(xhr.status);
+		            alert(thrownError);
+		        }
+		    });
+		}
+		
+		function deleteFavoriteMovie(favoriteMovieId) {
+			$.ajax({
+		        type: "post",
+		        url: "favoritemoviedelete",
+		        data: {"favoriteMovieId":favoriteMovieId},
+		        success: function(msg) {
+		        	$.notify("Favorite Movie Deleted", "success");
+		        	location.reload();
+		        },
+		        error:function (xhr, ajaxOptions, thrownError){
+		            alert(xhr.status);
+		            alert(thrownError);
+		        }
+		    });
+		}
+		
+		function deleteFavoriteDirector(favoriteDirectorId) {
+			$.ajax({
+		        type: "post",
+		        url: "favoritedirectordelete",
+		        data: {"favoriteDirectorId":favoriteDirectorId},
+		        success: function(msg) {
+		        	$.notify("Favorite Director Deleted", "success");
+		        	location.reload();
+		        },
+		        error:function (xhr, ajaxOptions, thrownError){
+		            alert(xhr.status);
+		            alert(thrownError);
+		        }
+		    });
+		}
+		
+		function deleteFavoriteActor(favoriteActorId) {
+			$.ajax({
+		        type: "post",
+		        url: "favoriteactordelete",
+		        data: {"favoriteActorId":favoriteActorId},
+		        success: function(msg) {
+		        	$.notify("Favorite Actor Deleted", "success");
+		        	location.reload();
+		        },
+		        error:function (xhr, ajaxOptions, thrownError){
+		            alert(xhr.status);
+		            alert(thrownError);
+		        }
+		    });
+		}
+		
+		function deleteFavoriteGenre(favoriteGenreId) {
+			$.ajax({
+		        type: "post",
+		        url: "favoritegenredelete",
+		        data: {"favoriteGenreId":favoriteGenreId},
+		        success: function(msg) {
+		        	$.notify("Favorite Genre Deleted", "success");
+		        	location.reload();
+		        },
+		        error:function (xhr, ajaxOptions, thrownError){
+		            alert(xhr.status);
+		            alert(thrownError);
+		        }
+		    });
+		}
 	</script>
 
 </body>

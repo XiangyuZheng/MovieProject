@@ -31,7 +31,7 @@ public class FavoriteActorDelete extends HttpServlet {
         req.setAttribute("messages", messages);
         // Provide a title and render the JSP.
         messages.put("title", "Delete Favorite Actor");        
-        req.getRequestDispatcher("/FavoriteActorDelete.jsp").forward(req, resp);
+        req.getRequestDispatcher("/ProfileUpdate.jsp").forward(req, resp);
 	}
 	
 	@Override
@@ -42,7 +42,7 @@ public class FavoriteActorDelete extends HttpServlet {
         req.setAttribute("messages", messages);
 
         // Retrieve and validate name.
-        String favoriteActorStr = req.getParameter("id");
+        String favoriteActorStr = req.getParameter("favoriteActorId");
         if (favoriteActorStr == null || favoriteActorStr.trim().isEmpty()) {
             messages.put("title", "Invalid favorite actor");
             messages.put("disableSubmit", "true");
@@ -64,6 +64,6 @@ public class FavoriteActorDelete extends HttpServlet {
 				throw new IOException(e);
 	        }
         }        
-        req.getRequestDispatcher("/FavoriteActorDelete.jsp").forward(req, resp);
+        req.getRequestDispatcher("/ForAjax.jsp").forward(req, resp);
 	}
 }
