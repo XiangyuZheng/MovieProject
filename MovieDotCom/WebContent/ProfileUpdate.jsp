@@ -83,6 +83,16 @@
 						</div>
 					</form>
 				</div>
+				
+				<ul class="nav navbar-nav pull-right">
+					<% if(session.getAttribute("userid")!=null) { %>
+					<li><a href="profileupdate">Profile</a></li>
+					<li><a href="logout">Logout</a></li>
+					<% } else  { %>
+					<li><a href="login">Login</a></li>
+					<li><a href="register">Register</a></li>
+					<% } %>
+				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
 		</div>
@@ -99,13 +109,6 @@
 		</div>
 		<div class="row">
 			<form class="form-horizontal">
-				<div class="form-group">
-					<label for="userid" class="col-sm-2 control-label">UserId:</label>
-					<div class="col-sm-10">
-						<input ng-model="userid" type="text" class="form-control" 
-							id="userid" name="userid" value="${fn:escapeXml(param.userid)}">
-					</div>
-				</div>
 				<div class="form-group">
 					<label for="username" class="col-sm-2 control-label">Username:</label>
 					<div class="col-sm-10">
@@ -163,7 +166,6 @@
 								<c:out value="$('#email').val()" />,
 								<c:out value="$('#profile').val()" />)">Update</button>
 					</div>
-				</div>
 			</form>
 		</div>
 		<!-- /.row -->

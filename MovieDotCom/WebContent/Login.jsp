@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Remove Favorite Director</title>
+<title>User Login</title>
 
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet"
@@ -22,6 +22,8 @@
 <!-- Latest compiled and minified JavaScript -->
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.3.4/notify.min.js"></script>
 
 <!-- Custom CSS -->
 <link href="css/half-slider.css" rel="stylesheet">
@@ -74,6 +76,7 @@
 						</div>
 					</form>
 				</div>
+				
 				<ul class="nav navbar-nav pull-right">
 					<% if(session.getAttribute("userid")!=null) { %>
 					<li><a href="profileupdate">Profile</a></li>
@@ -92,37 +95,40 @@
 	<div class="container hero-spacer">
 		<div class="row">
 			<div class="col-lg-12">
-				<h1>${messages.title}</h1>
+				<h1>${messages.success}</h1>
 			</div>
 		</div>
 		<div class="row">
-			<form class="form-horizontal" action="favoritedirectordelete" method="post">
-				<div class="form-group" <c:if test="${messages.disableSubmit}">style="display:none"</c:if>>
-					<label for="id" class="col-sm-2 control-label">Favorite director id</label>
-					<div class="col-sm-10" >
-						<input id="id" name="id" value="${fn:escapeXml(param.id)}">
+			<form class="form-horizontal" action="login" method="post">
+				<div class="form-group">
+					<label for="username" class="col-sm-2 control-label">Username:</label>
+					<div class="col-sm-10">
+						<input ng-model="username" type="text" class="form-control" 
+							id="username" name="username" value="">
 					</div>
 				</div>
-				<div class="form-group" <c:if test="${messages.disableSubmit}">style="display:none"</c:if>>
-					<label for="fn" class="col-sm-2 control-label">First name</label>
+				<div class="form-group">
+					<label for="password" class="col-sm-2 control-label">Password:</label>
 					<div class="col-sm-10">
-						<input id="fn" name="fn" value="${fn:escapeXml(param.fn)}">
-					</div>
-				</div>
-				<div class="form-group" <c:if test="${messages.disableSubmit}">style="display:none"</c:if>>
-					<label for="ln" class="col-sm-2 control-label">Last name</label>
-					<div class="col-sm-10">
-						<input id="ln" name="ln" value="${fn:escapeXml(param.ln)}">
+						<input ng-model="password" type="password" class="form-control"
+							id="password" name="password" value="">
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">
-						<button ng-click="update()" class="btn btn-default">remove</button>
+						<button ng-click="update()" class="btn btn-success">Submit</button>
 					</div>
 				</div>
 			</form>
 		</div>
 	</div>
+	
+	<script>
+		$('.carousel').carousel({
+			interval : 5000
+		//changes the speed
+		})
+	</script>
 
 </body>
 </html>

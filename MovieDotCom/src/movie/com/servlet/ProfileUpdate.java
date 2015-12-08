@@ -40,30 +40,30 @@ public class ProfileUpdate extends HttpServlet {
         req.setAttribute("messages", messages);
 
         // Retrieve user and validate.
-        String userIdStr = req.getParameter("userid");
-        if (userIdStr == null || userIdStr.trim().isEmpty()) {
-            messages.put("success", "Please enter a valid UserName.");
-        } else {
-        	try {
-        		int userId = Integer.parseInt(userIdStr);
-        		Users user = usersDao.getUserByUserId(userId);
-        		if(user == null) {
-        			messages.put("success", "User does not exist.");
-        		}
-        		req.setAttribute("user", user);
-        		List<FavoriteMovies> favoriteMovies = favoriteMoviesDao.getFavoriteMoviesByUserId(userId);
-        		req.setAttribute("favoriteMovies", favoriteMovies);
-        		List<FavoriteDirectors> favoriteDirectors = favoriteDirectorsDao.getFavoriteDirectorsByUserId(userId);
-        		req.setAttribute("favoriteDirectors", favoriteDirectors);
-        		List<FavoriteActors> favoriteActors = favoriteActorsDao.getFavoriteActorByUserId(userId);
-        		req.setAttribute("favoriteActors", favoriteActors);
-        		List<FavoriteGenres> favoriteGenres = favoriteGenresDao.getFavoriteGenresByUserId(userId);
-        		req.setAttribute("favoriteGenres", favoriteGenres);
-        	} catch (SQLException e) {
-				e.printStackTrace();
-				throw new IOException(e);
-	        }
-        }        
+        if (req.getSession().getAttribute("userid") == null) {
+        	resp.sendRedirect(resp.encodeRedirectURL(req.getContextPath() + "/home"));
+	        return;
+        }
+        int userId = (int) req.getSession().getAttribute("userid");
+     
+    	try {
+    		Users user = usersDao.getUserByUserId(userId);
+    		if(user == null) {
+    			messages.put("success", "User does not exist.");
+    		}
+    		req.setAttribute("user", user);
+    		List<FavoriteMovies> favoriteMovies = favoriteMoviesDao.getFavoriteMoviesByUserId(userId);
+    		req.setAttribute("favoriteMovies", favoriteMovies);
+    		List<FavoriteDirectors> favoriteDirectors = favoriteDirectorsDao.getFavoriteDirectorsByUserId(userId);
+    		req.setAttribute("favoriteDirectors", favoriteDirectors);
+    		List<FavoriteActors> favoriteActors = favoriteActorsDao.getFavoriteActorByUserId(userId);
+    		req.setAttribute("favoriteActors", favoriteActors);
+    		List<FavoriteGenres> favoriteGenres = favoriteGenresDao.getFavoriteGenresByUserId(userId);
+    		req.setAttribute("favoriteGenres", favoriteGenres);
+    	} catch (SQLException e) {
+			e.printStackTrace();
+			throw new IOException(e);
+        }      
         req.getRequestDispatcher("/ProfileUpdate.jsp").forward(req, resp);
 	}
 	

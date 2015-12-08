@@ -85,6 +85,16 @@
 					</div>
 				</form>
 			</div>
+			
+			<ul class="nav navbar-nav pull-right">
+					<% if(session.getAttribute("userid")!=null) { %>
+					<li><a href="profileupdate">Profile</a></li>
+					<li><a href="logout">Logout</a></li>
+					<% } else  { %>
+					<li><a href="login">Login</a></li>
+					<li><a href="register">Register</a></li>
+					<% } %>
+				</ul>
 		</div>
 		<!-- /.navbar-collapse -->
 	</div>
