@@ -29,6 +29,8 @@
 <!-- Latest compiled and minified JavaScript -->
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.3.4/notify.min.js"></script>
 
 <!-- Custom CSS -->
 <link href="css/half-slider.css" rel="stylesheet">
@@ -103,59 +105,13 @@
 
 		<div class="row">
 			<div class="col-lg-12">
-				<h1>Recommended Movies for you</h1>
+				<h1>Please login before getting your recommended movies</h1>
 			</div>
 		</div>
 
-		<!-- Page Features -->
-		<div class="row text-center">
-			<div class="row text-center">
-				<div class="col-md-9 hero-feature">
-					<c:forEach items="${movies}" var="m">
-						<a href="movieinfo?movieid=<c:out value="${m.getMovieId()}" />&from=recommedation">
-							<div class="col-md-3 col-sm-6 hero-feature">
-								<div class="thumbnail" style="height: 500px; overflow: hidden;">
-									<img height="500" width="800"
-										src='<c:out value="${m.getImageURL()}" />' alt="starting">
-									<div class="caption">
-										<h3>
-											<c:out value="${m.getTitle()}" />
-										</h3>
-										<p>
-											<font color="blue">Year</font>:
-											<c:out value="${m.getYear()}" />
-										</p>
-										<p>
-											<font color="blue">Rating</font>:
-											<c:out value="${m.getRating()}" />
-										</p>
-										<p>
-											<font color="blue">Description</font>:
-											<c:out value="${m.getDescription()}" />
-										</p>
-									</div>
-								</div>
-							</div>
-						</a>
-					</c:forEach>
-				</div>
-				<div class="col-md-3 col-sm-6 hero-feature">
-					
-				</div>
-			</div>
-			<!-- /.row -->
-			<hr>
-			<!-- Footer -->
-			<footer>
-			<div class="row">
-				<div class="col-lg-12">
-					<p>Copyright &copy; MovieDotCom 2015</p>
-				</div>
-			</div>
-			<!-- /.row --> </footer>
+	</div>
+	<!-- /.container -->
 
-		</div>
-		<!-- /.container -->
 </body>
 
 </html>

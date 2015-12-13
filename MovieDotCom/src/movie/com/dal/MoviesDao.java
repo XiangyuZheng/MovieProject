@@ -25,7 +25,6 @@ public class MoviesDao {
             instance = new MoviesDao();
         }
         return instance;
-
     }
 
     public Movies create(Movies movie) throws SQLException {
@@ -71,12 +70,6 @@ public class MoviesDao {
         }
     }
 
-    /**
-     * Get the BlogPosts record by fetching it from your MySQL instance. This runs a SELECT
-     * statement and returns a single BlogPosts instance. Note that we use BlogUsersDao to retrieve
-     * the referenced BlogUsers instance. One alternative (possibly more efficient) is using a
-     * single SELECT statement to join the BlogPosts, BlogUsers tables and then build each object.
-     */
     public Movies getMovieById(int movieId) throws SQLException {
         String selectMovie = "SELECT MovieId,Title,Year,ImageURL,Rating,Description " +
                 "FROM Movies " +
@@ -99,6 +92,53 @@ public class MoviesDao {
                 String description = results.getString("Description");
                 Movies movie = new Movies(resultMovieId, title, year, imageURL,
                         rating, description);
+                return movie;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+            if (selectStmt != null) {
+                selectStmt.close();
+            }
+            if (results != null) {
+                results.close();
+            }
+        }
+        return null;
+    }
+
+    public Movies getRecomMovieById(int movieId) throws SQLException {
+        String selectMovie = "SELECT MovieId,Title,Year,ImageURL,Rating,Description,"
+                + "Actors,Director,Genre "
+                + "FROM MoviesForRec "
+                + "WHERE MovieId=?;";
+        Connection connection = null;
+        PreparedStatement selectStmt = null;
+        ResultSet results = null;
+        try {
+            connection = connectionManager.getConnection();
+            selectStmt = connection.prepareStatement(selectMovie);
+            selectStmt.setInt(1, movieId);
+            results = selectStmt.executeQuery();
+            if (results.next()) {
+                int resultMovieId = results.getInt("MovieId");
+                String title = results.getString("Title");
+                int year = results.getInt("Year");
+                String imageURL = results.getString("ImageURL");
+                Double rating = results.getDouble("Rating");
+                String description = results.getString("Description");
+                Movies movie = new Movies(resultMovieId, title, year, imageURL,
+                        rating, description);
+                String actors = results.getString("Actors");
+                String director = results.getString("Director");
+                String genre = results.getString("Genre");
+                movie.setActors(actors);
+                movie.setDirector(director);
+                movie.setGenre(genre);
                 return movie;
             }
         } catch (SQLException e) {
@@ -164,11 +204,17 @@ public class MoviesDao {
 
     public List<Movies> getRecommendedMoviesByUserId(int userId) throws SQLException {
         List<Movies> movies = new ArrayList<Movies>();
-        String selectMovies = "SELECT MovieId,Title,Year,ImageURL,Rating,Description "
-                + "FROM Movies "
-                + "WHERE Year = 2015 AND Rating > 7.0 AND Description != ''"
-                + "ORDER BY RAND()"
-                + "LIMIT 20;";
+        String selectMovies = "SELECT MovieId,Title,Year,Rating,ImageUrl,Description "
+                + "FROM MoviesForRec INNER JOIN "
+                + "(SELECT MovieId2 AS mid, Similarity FROM Similarity "
+                + "WHERE MovieId1 = "
+                + "(SELECT MovieId FROM MovieDB.FavoriteMovies "
+                + "WHERE UserId = " + userId
+                + " ORDER BY Rating DESC "
+                + "LIMIT 1) "
+                + "ORDER BY Similarity DESC "
+                + "LIMIT 12) AS sTable ON "
+                + "MoviesForRec.MovieId = sTable.mid;";
         Connection connection = null;
         PreparedStatement selectStmt = null;
         ResultSet results = null;
@@ -182,8 +228,6 @@ public class MoviesDao {
                 String resultTitle = results.getString("Title");
                 int year = results.getInt("Year");
                 String imageURL = results.getString("ImageURL");
-                // hack here
-                imageURL = imageURL.replace("_SX54_CR0,0,54,74_", "_SX216_CR0,0,216,296_");
                 int rating = results.getInt("Rating");
                 String description = results.getString("Description");
                 Movies movie = new Movies(movieId, resultTitle, year, imageURL, rating,
@@ -210,8 +254,8 @@ public class MoviesDao {
     public List<Movies> getMoviesForRating() throws SQLException {
         List<Movies> movies = new ArrayList<Movies>();
         String selectMovies = "SELECT MovieId,Title,Year,ImageURL,Rating,Description "
-                + "FROM Movies "
-                + "LIMIT 12 OFFSET 20;";
+                + "FROM MoviesForRec "
+                + "WHERE MovieId in (25, 5, 65, 17, 13, 66, 40, 32, 38, 9, 56, 18);";
         Connection connection = null;
         PreparedStatement selectStmt = null;
         ResultSet results = null;
@@ -336,5 +380,4 @@ public class MoviesDao {
         }
         return movies;
     }
-
 }

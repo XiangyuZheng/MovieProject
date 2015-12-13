@@ -111,16 +111,13 @@
                 <h1>${movie.getTitle()}  (${movie.getYear()})</h1>
                 <p>${movie.getDescription()}</p>
                 <p><font color="blue">Director</font>:             
-                <c:forEach items="${directedmovies}" var="director" >
-                   [<c:out value="${director.getDirector().getFirstName()}" />
-                   <c:out value="${director.getDirector().getLastName()}" />]
-                </c:forEach>
+                ${movie.getDirector()}
                 </p>
                 <p><font color="blue">Stars</font>:
-                 <c:forEach items="${performedmovies}" var="actor" >
-                   [<c:out value="${actor.getActor().getFirstName()}" />
-                   <c:out value="${actor.getActor().getLastName()}" />]      
-                </c:forEach>               
+                ${movie.getActors()}
+                </p>
+                <p><font color="blue">Genre</font>:
+                ${movie.getGenre()}
                 </p>
                 <p><font color="blue">Rating</font>:
                 ${movie.getRating()}

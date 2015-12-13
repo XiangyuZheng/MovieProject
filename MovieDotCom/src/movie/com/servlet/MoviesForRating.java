@@ -40,6 +40,11 @@ public class MoviesForRating extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
+        if (req.getSession().getAttribute("userid") == null) {
+            req.getRequestDispatcher("/MoviesForRatingNotLogin.jsp").forward(req, resp);
+            return;
+        }
+        int userId = (int) req.getSession().getAttribute("userid");
         // Retrieve Movies, and store in the request.
         List<Movies> movies = new ArrayList<Movies>();
         try {
@@ -51,7 +56,7 @@ public class MoviesForRating extends HttpServlet {
         List<Integer> ratingList = new ArrayList<Integer>();
         for (Movies m : movies) {
             try {
-                FavoriteMovies favor = favoriteMoviesDao.getFavoriteMoviesByUserIdAndMovieId(111,
+                FavoriteMovies favor = favoriteMoviesDao.getFavoriteMoviesByUserIdAndMovieId(userId,
                         m.getMovieId());
                 if (favor == null) {
                     ratingList.add(0);
@@ -71,7 +76,7 @@ public class MoviesForRating extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        
+
         String userId = req.getParameter("userId");
         String movieId = req.getParameter("movieId");
         String rating = req.getParameter("rating");

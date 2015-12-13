@@ -35,16 +35,16 @@ public class RecommendedMovies extends HttpServlet {
         req.setAttribute("messages", messages);
 
         // Retrieve and validate UserName.
-        String userId = req.getParameter("userId");
-        if (userId == null || userId.trim().isEmpty()) {
-            messages.put("title", "Invalid userId.");
-            userId = "0";
+        if (req.getSession().getAttribute("userid") == null) {
+            resp.sendRedirect(resp.encodeRedirectURL(req.getContextPath() + "/home"));
+            return;
         }
+        int userId = (int) req.getSession().getAttribute("userid");
 
         // Retrieve Movies, and store in the request.
         List<Movies> movies = new ArrayList<Movies>();
         try {
-            movies = moviesDao.getRecommendedMoviesByUserId(Integer.parseInt(userId));
+            movies = moviesDao.getRecommendedMoviesByUserId(userId);
         } catch (SQLException e) {
             e.printStackTrace();
             throw new IOException(e);

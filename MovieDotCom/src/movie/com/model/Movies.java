@@ -8,9 +8,11 @@ public class Movies {
 	protected String imageURL;
 	protected double rating;
 	protected String description;
+	protected String director;
+	protected String actors;
+	protected String genre;
 	
-	
-	public Movies(int movieId, String title, int year, String imageURL, double rating, String description) {
+    public Movies(int movieId, String title, int year, String imageURL, double rating, String description) {
 		this.movieId = movieId;
 		this.title = title;
 		this.year = year;
@@ -93,9 +95,31 @@ public class Movies {
 		this.description = description;
 	}
 	
-	
-	
-	
-	
+	public String getGenre() {
+        return genre;
+    }
 
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public String getDirector() {
+        return director;
+    }
+
+    public void setDirector(String director) {
+        this.director = director;
+    }
+
+    public String getActors() {
+        return actors;
+    }
+
+    public void setActors(String actors) {
+        this.actors = actors;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 }
