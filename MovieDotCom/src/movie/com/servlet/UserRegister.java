@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import movie.com.dal.FavoriteActorsDao;
 import movie.com.dal.FavoriteDirectorsDao;
@@ -22,7 +23,7 @@ import movie.com.dal.FavoriteMoviesDao;
 import movie.com.dal.UsersDao;
 import movie.com.model.Users;
 
-@WebServlet("/userregister")
+@WebServlet("/register")
 public class UserRegister extends HttpServlet {
 	protected UsersDao usersDao;
 	protected FavoriteMoviesDao favoriteMoviesDao;
@@ -81,8 +82,17 @@ public class UserRegister extends HttpServlet {
         		{  
         		    System.out.println(e.getMessage());  
         		}        		
-        		int userId = usersDao.getUserByUserName(userName).getUserId();
-        		req.setAttribute("userid", userId);
+        		int userId = usersDao.getUserByUserName(userName).getUserId();		
+        		Users user = usersDao.getUserByUserId(userId);
+        		if(user != null && user.getPassword().equals(password)) {
+        			messages.put("success", "Successfully login.");
+        			HttpSession session=req.getSession(); 
+        	        session.setAttribute("userid", user.getUserId());
+        	        resp.sendRedirect(resp.encodeRedirectURL(req.getContextPath() + "/home"));
+        	        return;
+        		} else {
+        			messages.put("success", "Invalid username or password.");	
+        		}		
         	} catch (SQLException e) {
 				e.printStackTrace();
 				throw new IOException(e);

@@ -69,7 +69,6 @@
 							<div class="input-group-btn">
 								<button class="btn btn-default" type="submit">
 									<i class="glyphicon glyphicon-search"></i>
-								</button>
 							</div>
 						</div>
 					</form>
@@ -96,7 +95,7 @@
 			</div>
 		</div>
 		<div class="row">
-			<form class="form-horizontal" action="userregister" method="post">
+			<form class="form-horizontal" action="register" method="post">
 				<div class="form-group" <c:if test="${messages.disableSubmit}">style="display:none"</c:if>>
 					<label for="fn" class="col-sm-2 control-label">UserName</label>
 					<div class="col-sm-10">
