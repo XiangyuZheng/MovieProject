@@ -114,7 +114,7 @@ public class FavoriteMoviesDao {
                 int resultMovieId = results.getInt("MovieId");
                 int rating = results.getInt("Rating");
                 Users user = usersDao.getUserByUserId(resultUserId);
-                Movies movie = moviesDao.getMovieById(resultMovieId);
+                Movies movie = moviesDao.getRecomMovieById(resultMovieId);
                 FavoriteMovies favoriteMovie = new FavoriteMovies(resultFavoriteMoviesId, user,
                         movie, rating);
                 favoriteMovies.add(favoriteMovie);
