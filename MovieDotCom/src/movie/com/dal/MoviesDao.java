@@ -380,4 +380,48 @@ public class MoviesDao {
         }
         return movies;
     }
+
+    public List<Movies> getSearchMovies(String term) throws SQLException {
+        List<Movies> movies = new ArrayList<Movies>();
+        String selectMovies = "SELECT MovieId,Title,Year,ImageURL,Rating,Description "
+                + "FROM Movies "
+                + "WHERE Title like '%" + term + "%'"
+                + "LIMIT 20;";
+        Connection connection = null;
+        PreparedStatement selectStmt = null;
+        ResultSet results = null;
+        try {
+            connection = connectionManager.getConnection();
+            selectStmt = connection.prepareStatement(selectMovies);
+//            selectStmt.setString(0, term);
+            results = selectStmt.executeQuery();
+            while (results.next()) {
+                int movieId = results.getInt("MovieId");
+                String resultTitle = results.getString("Title");
+                int year = results.getInt("Year");
+                String imageURL = results.getString("ImageURL");
+                // hack here
+                imageURL = imageURL.replace("_SX54_CR0,0,54,74_", "_SX216_CR0,0,216,296_");
+                int rating = results.getInt("Rating");
+                String description = results.getString("Description");
+                Movies movie = new Movies(movieId, resultTitle, year, imageURL, rating,
+                        description);
+                movies.add(movie);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (connection != null) {
+                connection.close();
+            }
+            if (selectStmt != null) {
+                selectStmt.close();
+            }
+            if (results != null) {
+                results.close();
+            }
+        }
+        return movies;
+    }
 }
