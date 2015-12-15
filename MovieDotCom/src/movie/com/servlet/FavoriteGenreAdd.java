@@ -59,6 +59,8 @@ public class FavoriteGenreAdd extends HttpServlet {
 	        		if (favoriteGenre != null) {
 	        			messages.put("title", "Successfully added favourite genre: " + genre.getGenreType().name());
 	        			messages.put("disableSubmit", "true");
+	        			resp.sendRedirect(resp.encodeRedirectURL(req.getContextPath() + "/profileupdate"));
+	        	        return;
 	        		} else {
 	        			messages.put("title", "Failed to add " + genre.getGenreType().name());
 	        			messages.put("disableSubmit", "false");

@@ -60,6 +60,8 @@ public class FavoriteDirectorAdd extends HttpServlet {
 	        		if (favoriteDirector != null) {
 	        			messages.put("title", "Successfully added favourite director: " + firstName + " " + lastName);
 	        			messages.put("disableSubmit", "true");
+	        			resp.sendRedirect(resp.encodeRedirectURL(req.getContextPath() + "/profileupdate"));
+	        	        return;
 	        		} else {
 	        			messages.put("title", "Failed to add " + firstName + " " + lastName);
 	        			messages.put("disableSubmit", "false");

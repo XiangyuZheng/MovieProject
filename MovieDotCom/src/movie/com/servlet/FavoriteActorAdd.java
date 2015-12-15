@@ -60,6 +60,8 @@ public class FavoriteActorAdd extends HttpServlet {
 	        		if (favoriteActor != null) {
 	        			messages.put("title", "Successfully added favourite actor: " + firstName + " " + lastName);
 	        			messages.put("disableSubmit", "true");
+	        			resp.sendRedirect(resp.encodeRedirectURL(req.getContextPath() + "/profileupdate"));
+	        	        return;
 	        		} else {
 	        			messages.put("title", "Failed to add " + firstName + " " + lastName);
 	        			messages.put("disableSubmit", "false");
